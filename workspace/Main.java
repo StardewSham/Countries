@@ -1,3 +1,9 @@
+/*1.22.25
+ * melike yildirim
+ * this sets up the actual game
+ * i just wanna play tf2 ughhhhhhhh
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -11,12 +17,17 @@ public class Main
   private Country[] countryArray = new Country[10];  
   // index of current shown country
   private int index = 0;
-
+//need to write a country class, populate country array using a for loop to populate information form the csv file and then the countries will be in thhere
+//index keeps track of the country we're looking at, china  is index 0 if you change the index the the counrey should switch
   // GUI elements
   private JFrame jFrame = new JFrame("Countries");
   private ImageIcon img;
   private JLabel imageLabel;
   private JLabel outputLabel;
+  private JTextField input;
+  //what i should be yping here la la la later i'll complain i didn't do this or something 
+  ///something something something i want to do this later oh my god
+  ///more simething somethings i guess 
   
   public static void main(String[] args) {
     // Create the GUI
@@ -29,7 +40,8 @@ public class Main
   public void loadCountries() 
   {
     // Open the data file - do not change
-    File file = new File("countries-data.csv");
+    ///uses the copy path thingy, right click on the file hit copy path
+    File file = new File("/workspaces/Countries/workspace/countries-data.csv");
     Scanner scan = null;
     try {
       scan = new Scanner(file);
@@ -40,9 +52,14 @@ public class Main
     // Write a for loop that goes through the countryArray.
     // for(int i ....) {
     // Do the following inside the loop
+    for(int i = 0; i<countryArray.length;i++){
       String input = scan.nextLine();
-      String[] data = input.split(",");
+      String [] data = input.split(",");
       System.out.println("Read in " + data[0]);
+      countryArray[i] = new Country(data[0],data[1],data[2],data[3]);
+    }
+ 
+      
       // inside the loop, create a new Country using your constructor with 3 arguments and pass in data[0], data[1], data[2], data[3] as arguments.
      // inside the loop, set countryArray[i] to the created Country object
      
@@ -53,35 +70,70 @@ public class Main
   */
   public void showCountry() {
     // Get the country at index from countryArray
+    Country jarate = countryArray[index];
     
     // Use its get method to get the its image file name and save it into imagefile variable below instead of worldmap.jpg.
-    String imagefile = "worldmap.jpg";
+    String imagefile = jarate.getImageFile();
     // Use the following code to create an new Image Icon and put it into the GUI
-    img = new ImageIcon(imagefile);
+    img = new ImageIcon("/workspaces/Countries/workspace/"+imagefile);
     imageLabel.setIcon(img);
   }
   
   /* nextButton should increment index. If the index is greater than 9, reset it back to 0. Clear the outputLabel to empty string using setText, and call showCountry();*/
   public void nextButtonClick()
   {
+    index++;
+    if(index>9){
+      index=0;
+    }
+    outputLabel.setText("");
+    showCountry();
+
+    }
     
-  }
+  
   
   /* reviewButton should get the country at index from the countryArray, call its toString() method and save the result, print it out with System.out.println and as an argument to outputLabel.setText( text to print out ); */
   public void reviewButtonClick()
-  {
+  {///i feel like my brain is breaking oh my god
+    ///it might just be the tf2/sniper brainrot
+    Country jarate = countryArray[index];
+    String kukri = jarate.toString();
+    System.out.println(kukri);
+    outputLabel.setText(kukri);
+
+
+
      
   }
 
   /* quizButton should clear the outputLabel (outputLabel.setText to empty string), get the country at index from countryArray, print out a question about it like What country is this? and/or What's this country's capital?. Get the user's answer using scan.nextLine() and check if it is equal to the country's data using its get methods and print out correct or incorrect.
   */
   public void quizButtonClick()
+
+
   {
-    Scanner scan = new Scanner(System.in); 
+    outputLabel.setText("");
+    Country jarate = countryArray[index];
+    System.out.println("what language does this country speak");
+    Scanner support = new Scanner(System.in);
+    String shotput = support.nextLine();
+    if(shotput.equals(jarate.getLanguage())){
+      outputLabel.setText("yupper dupper");
+    }
+    else{
+      outputLabel.setText("nople dople");
+    }
+
+      
+    }
+    
+
+
     
     
     
-  }
+  
 
 
 
@@ -101,7 +153,7 @@ public Main() {
         jFrame.add(newButton);
         
         // create a new image icon
-        img = new ImageIcon("worldmap.jpg");
+        img = new ImageIcon("/workspaces/Countries/workspace/worldmap.jpg");
         // create a label to display image
         imageLabel = new JLabel(img);
         // and one for output
